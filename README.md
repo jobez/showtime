@@ -31,10 +31,9 @@ Let us look at the Chuck Norris Joke Performer
 You take the content of your jokes and a DOM node and construct a sequence of CNJoke performers, and hand them to the showtime function.
 
 ```
-(let [jokes (map (fn [joke]
-                             (->CNJoke joke c)) jokes)
-                [tick close] (showtime jokes)]
-            (put! tick :go))
+(let [jokes (map (fn [joke] (->CNJoke joke c)) jokes)
+          [tick close] (showtime jokes)]
+          (put! tick :go))
 ```
 
 Showtime returns a tick and close chan. To begin the show, put a non-nil val on the tick chan. To end the show, put value on pause.
