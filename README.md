@@ -1,6 +1,18 @@
+
+
 # Showtime
 
-It turn your values into captivating, glamorous performers on the clj(s) platform.
+This library is very much in progress. Feel free to ping me with any thoughts / introductions to similiar ideas and implementations. Learning is cool.
+
+## running the demos
+
+- [install boot](https://github.com/boot-clj/boot#install)
+
+- clone & cd to directory
+
+- ```boot browser-example``  loads the inbrowser carousel of Chuck Norris Jokes at localhost:3000
+
+- ```boot quil-example wait``` fires up a quil sketch that cycles through pictures of kittens for 30 seconds
 
 ## Usage
 
