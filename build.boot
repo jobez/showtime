@@ -56,7 +56,7 @@
   (comp (build-jar)
         (push-release)))
 
-(deftask kitten-show
+(deftask quil-example
   []
   "runs a quil sketch that cycles through kittens for 30secs"
   (fn middleware [next-handler]
@@ -64,7 +64,7 @@
       (kitten/start 30000)
       (-> fileset next-handler))))
 
-(deftask bad-jokes []
+(deftask browser-example []
   "serves demo app at localhost:3000"
   (comp (watch)
         (serve)
