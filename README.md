@@ -25,8 +25,8 @@ Let us look at the Chuck Norris Joke Performer
   (will-leave-stage [this])
   IStageTime
   (perf-time [this] ;; defines the joke's stage time
-    (rand-int 5000)))
-    ```
+  (rand-int 5000)))
+```
 
 You take the content of your jokes and a DOM node and construct a sequence of CNJoke performers, and hand them to the showtime function.
 
