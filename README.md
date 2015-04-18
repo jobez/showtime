@@ -6,6 +6,9 @@ It turn your values into captivating, glamorous performers on the clj(s) platfor
 
 Let's say you have five tremendous Chuck Norris Jokes and you want the user to only see one at a time, so that they can truly savor them. And you want the jokes to cycle indefinitely, because you are benevolent.
 
+And just for the sake of the readme, let's say the display looks like this:
+![CNJ are the past and future of comedy](http://i.imgur.com/Sib8ivv.gif)
+
 Showtime lets you define how the joke would behave before, during, and after it is rendered via the IPerform, (or IAsyncPrep IPrep), and IStageTime protocols.
 
 Let us look at the Chuck Norris Joke Performer
