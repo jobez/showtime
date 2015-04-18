@@ -1,16 +1,17 @@
 (ns showtime.bad-jokes
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [goog.dom.classes :as class]
-
-             [cljs-http.client :as http]
-             [showtime.main :as show :refer (IPerform IPrep IAsyncPrep IStageTime
+            [showtime.main :as show :refer (IPerform IPrep IAsyncPrep IStageTime
                                                       showtime
                                                       end-performance
                                                       start-performance
                                                       awill-enter-stage
                                                       awill-leave-stage
+                                                      will-enter-stage
+                                                      will-leave-stage
                                                       perf-time
                                                       entrance-slack)]
+            [cljs-http.client :as http]
              [cljs.core.async :as async :refer [<! alts! put!]]))
 
 (enable-console-print!)
