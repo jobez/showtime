@@ -49,17 +49,17 @@
   (show/end-performance [this]
     (swap! state assoc :msg :end-performance))
   (show/start-performance [this]
-    (some->> this
+    (some->> this ;;take the prepwork
         :prepwork
         :body
-        bis->buffimage
-        buffimage->pimage
-        (swap! state assoc :star))
+        bis->buffimage ;; convert byte input stream to bufferedimage
+        buffimage->pimage ;; convert bufferedimage to a processing image
+        (swap! state assoc :star)) ;; swap it into the quil-sketch state
     (swap! state assoc :msg :a-star-is-born))
   IAsyncPrep
   (show/awill-enter-stage [this]
     (let [ready-chan (chan)
-          reqstream (http/get image-url)]
+          reqstream (http/get image-url)] ;; request kitten image
       (s/connect reqstream ready-chan)
       ready-chan))
   (show/awill-leave-stage [this]
