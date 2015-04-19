@@ -10,7 +10,7 @@ This library is very much in progress. Feel free to ping me with any thoughts / 
 
 - clone & cd to directory
 
-- ```boot browser-example```  loads the inbrowser carousel of Chuck Norris Jokes at localhost:3000
+- ```boot browser-example```  loads the inbrowser view that cycles through Chuck Norris Jokes ad infinitum localhost:3000
 
 - ```boot quil-example wait``` fires up a quil sketch that cycles through pictures of kittens for 30 seconds
 
