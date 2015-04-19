@@ -4,15 +4,13 @@
                    [java.awt.image BufferedImage WritableRaster]))
   (:require [showtime.main :as show :refer (IPerform IPrep IAsyncPrep IStageTime
                                                      showtime)]
-
             #?@(:clj [[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan alt! alts!! go go-loop alts!]]
                       [manifold.stream :as s]
                       [aleph.http :as http]
                       [quil.core :as q]])))
 
-
-
 (defn bis->buffimage [bis]
+  "takes a byteinputstream, returns a bufferedimage"
   (javax.imageio.ImageIO/read bis))
 
 (defn buffimage->pimage [^BufferedImage buffimage]
@@ -25,14 +23,13 @@
     (.updatePixels pimg)
     pimg))
 
-
 (defn kitten-show [state]
   (let [setup (fn []
                 (q/smooth)
                 (q/no-cursor))
         draw (fn []
-               (when-let [diva (:star @state)]
-                 (q/image diva 0 0))
+               (when-let [kitten (:star @state)]
+                 (q/image kitten 0 0))
                (when-let [message (:msg @state)]
                  (q/text (name message) 50 50)))]
     (q/sketch
@@ -40,7 +37,6 @@
      :setup setup
      :draw draw
      :size [300 500])))
-
 
 (defn gen-kitten []
   "i'd like a place kitten, please'"
@@ -75,7 +71,7 @@
     1000))
 
 (defn start [show-length]
-  "a quil sketch iterates through 20 kitten performers then ends"
+  "a quil sketch that displays some kittens for a given show length"
   (let [state (atom nil)
         kitten-lazy-seq (repeatedly #(->Kitten (gen-kitten) state))
       [start-chan end-chan] (show/showtime (take 5 kitten-lazy-seq))]
