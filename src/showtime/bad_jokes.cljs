@@ -33,6 +33,7 @@
     (rand-int 5000)))
 
 (defn prepare-dom [joke-node container tick close]
+  "create and hook events into buttons and append it to container"
   (let [continue-button (.. js/document (createElement "BUTTON"))
         pause-button (.. js/document (createElement "BUTTON"))]
     (class/add joke-node "joke")
