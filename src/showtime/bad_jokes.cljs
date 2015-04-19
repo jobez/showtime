@@ -58,6 +58,7 @@
      (put! tick :go)))
 
 (defn get-jokes []
+  "requests a single joke every second up till five, then passes jokes on"
   (go-loop [jokes []]
     (<! (async/timeout 1000))
     (let [endpoint "http://api.icndb.com/jokes/random?limitTo=[nerdy]&exclude=[explicit]"
