@@ -24,6 +24,7 @@
     pimg))
 
 (defn kitten-show [state]
+  "starts quil sketch"
   (let [setup (fn []
                 (q/smooth)
                 (q/no-cursor))
