@@ -18,7 +18,7 @@
 
 (defrecord CNJoke [text node container]
   IPerform
-  (end-performance [this]
+  (end-performance [this] ;; this method is call
     (aset node "innerHTML" (str "<i>" (:joke text) "</i>"))
     (.. container (appendChild node)))
   (start-performance [this]
@@ -32,35 +32,44 @@
   (perf-time [this]
     (rand-int 5000)))
 
-(defn get-jokes [node b a]
+(defn prepare-dom [joke-node container tick close]
+  (let [continue-button (.. js/document (createElement "BUTTON"))
+        pause-button (.. js/document (createElement "BUTTON"))]
+    (class/add joke-node "joke")
+    (aset container "innerHTML" (str "loaded " 5 " out of " 5 " jokes"))
+    (aset pause-button "innerHTML" (str "<b>" "Stop the Bad Jokes" "</b>"))
+    (aset continue-button "innerHTML" (str "<i>" "Continue Bad Jokes" "</i>"))
+    (aset continue-button "onclick" (fn [e]
+                                      (.. e preventDefault)
+                                      (put! tick :continue)))
+    (aset pause-button "onclick" (fn [e]
+                                   (.. e preventDefault)
+                                   (put! close :pause)))
+    (.. container (appendChild pause-button))
+    (.. container  (appendChild continue-button))))
+
+(defn start-show [container jokes]
+  (let [joke-node (.. js/document (createElement "DIV"))
+        jokes (map (fn [joke]
+                     (->CNJoke joke joke-node container)) jokes)
+        [tick close] (showtime jokes)]
+     (prepare-dom joke-node container tick close)
+     (put! tick :go)))
+
+(defn get-jokes []
   (go-loop [jokes []]
     (<! (async/timeout 1000))
-    (let [container (.. js/document (getElementById "joke-container"))]
+    (let [endpoint "http://api.icndb.com/jokes/random?limitTo=[nerdy]&exclude=[explicit]"
+          container (.. js/document (getElementById "joke-container"))]
         (if (< (count jokes) 5)
-          (let [resp (<! (http/get "http://api.icndb.com/jokes/random?limitTo=[nerdy]&exclude=[explicit]"
+          (let [resp (<! (http/get endpoint
                                    {:with-credentials? false}))
                 joke (get-in resp [:body :value])]
-            (aset container "innerHTML" (str "loading " (inc (count jokes)) " out of " 5 " jokes"))
+            (aset container "innerHTML"
+                  (str "loading " (inc (count jokes)) " out of " 5 " jokes"))
             (recur (conj jokes joke)))
-          (let [jokes (map (fn [joke]
-                             (->CNJoke joke node container)) jokes)
-                [tick close] (showtime jokes)]
-            (aset container "innerHTML" (str "loaded " (count jokes) " out of " 5 " jokes"))
-            (aset b "innerHTML" (str "<b>" "Stop the Bad Jokes" "</b>"))
-            (aset a "innerHTML" (str "<i>" "Continue Bad Jokes" "</i>"))
-            (aset a "onclick" (fn [e]
-                                (.. e preventDefault)
-                                (put! tick :continue)))
-            (aset b "onclick" (fn [e]
-                                (.. e preventDefault)
-                                (put! close :pause)))
-            (.. container (appendChild a))
-            (.. container  (appendChild b))
-            (put! tick :go))))))
+
+         (start-show container jokes)))))
 
 (defn main []
-  (let [c (.. js/document (createElement "DIV"))
-        b (.. js/document (createElement "BUTTON"))
-        a (.. js/document (createElement "BUTTON"))]
-    (class/add c "joke")
-    (get-jokes c b a)))
+  (get-jokes))
