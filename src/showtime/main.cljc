@@ -5,7 +5,6 @@
               [cljs.core.async :as async :refer [timeout <! chan close! put!]]]
 
              :clj [[plumbing.core :refer :all :exclude [update]]
-
                    [clojure.core.async :as async :refer [<! >! <!! >!! timeout chan alt! alts!! go go-loop alts!]]])))
 
 (defprotocol IPerform
