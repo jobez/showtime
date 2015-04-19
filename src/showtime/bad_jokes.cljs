@@ -18,7 +18,7 @@
 
 (defrecord CNJoke [text node container]
   IPerform
-  (end-performance [this] ;; this method is call
+  (end-performance [this]
     (aset node "innerHTML" (str "<i>" (:joke text) "</i>"))
     (.. container (appendChild node)))
   (start-performance [this]
@@ -68,8 +68,7 @@
             (aset container "innerHTML"
                   (str "loading " (inc (count jokes)) " out of " 5 " jokes"))
             (recur (conj jokes joke)))
-
-         (start-show container jokes)))))
+          (start-show container jokes)))))
 
 (defn main []
   (get-jokes))
