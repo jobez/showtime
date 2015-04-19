@@ -66,16 +66,16 @@
     (showtime-process stage tick) ;; ready stage
     (go-loop [performers item-sequence performed []] ;; coordinate performers
       (alt!
-        tick ([_] (if-let [performer (first performers)]
+        tick ([_] (if-let [performer (first performers)] ;; take the head of the sequence
                     (do
-                      #?(:clj (>! stage performer)
+                      #?(:clj (>! stage performer) ;; put it on stage
                               :cljs (put! stage performer))
-                      (recur (rest performers) (conj performed performer)))
+                      (recur (rest performers) (conj performed performer))) ;; recur the rest
                     (do
-                      (println "cycling through performers")
+                      (println "cycling through performers") ;; stage the first who had performed
                       #?(:clj (>! stage (first performed))
                               :cljs (put! stage (first performed)))
-                      (recur (rest performed) (conj [] (first performed))))
+                      (recur (rest performed) (conj [] (first performed)))) ;; recur the rest
                     ))
         close ([_] (alt! ;; if, after sending a val to the close chan there is
                          ;; no other signals on the tick chan, the show is over
