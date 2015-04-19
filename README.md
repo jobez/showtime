@@ -55,7 +55,7 @@ Showtime returns a tick and close chan. To begin the show, put a non-nil val on 
 
 In the case of CNJoke, a simple yet profound performer, there is no need to do any prepwork before entering and leaving the DOM.
 
-For a slightly more sophisticated example, look to the kitten-show,  which implements IAsyncPrep to lazy-load an image. If the request isn't completed by the allotted "entrance-slack" time value, it is **skipped**. Because show business is harsh.
+For a slightly more sophisticated example, look to the [kitten-show example](https://github.com/jobez/showtime/blob/master/src/showtime/kitten_show.cljc),  which implements IAsyncPrep to lazy-load an image. If the request isn't completed by the allotted "entrance-slack" time value, it is **skipped**. Because show business is harsh.
 
 ## TODO
 
