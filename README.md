@@ -12,7 +12,7 @@ This library is very much in progress. Feel free to ping me with any thoughts / 
 
 - ```boot browser-example```  loads the inbrowser view that cycles through Chuck Norris Jokes ad infinitum localhost:3000 [source here](https://github.com/jobez/showtime/blob/master/src/showtime/bad_jokes.cljs)
 
-- ```boot quil-example wait``` fires up a quil sketch that cycles through pictures of kittens for 30 seconds [source here](https://github.com/jobez/showtime/blob/master/src/showtime/kitten_show.cljc) )
+- ```boot quil-example wait``` fires up a quil sketch that cycles through pictures of kittens for 30 seconds [source here](https://github.com/jobez/showtime/blob/master/src/showtime/kitten_show.cljc) 
 
 ## Usage
 
