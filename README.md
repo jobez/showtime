@@ -10,7 +10,7 @@ This library is very much in progress. Feel free to ping me with any thoughts / 
 
 - clone & cd to directory
 
-- ```boot browser-example``  loads the inbrowser carousel of Chuck Norris Jokes at localhost:3000
+- ```boot browser-example```  loads the inbrowser carousel of Chuck Norris Jokes at localhost:3000
 
 - ```boot quil-example wait``` fires up a quil sketch that cycles through pictures of kittens for 30 seconds
 
@@ -26,21 +26,21 @@ Showtime lets you define how the joke would behave before, during, and after it 
 Let us look at the Chuck Norris Joke Performer
 
 ```
-(defrecord CNJoke [text c]
+(defrecord CNJoke [text node container]
   IPerform
-  (end-performance [this] 
-    (aset c "innerHTML" (str "<i>" (:joke text) "</i>"))
-    (.. js/document (getElementById "joke-container") (appendChild c)))
+  (end-performance [this] ;; this method is call
+    (aset node "innerHTML" (str "<i>" (:joke text) "</i>"))
+    (.. container (appendChild node)))
   (start-performance [this]
-    (aset c "innerHTML" (str "<div id='joke'>" (:joke text) "</div>"))
-    (aset c "style" "fontSize" (str (+ 15 (rand-int 10))  "px"))
-    (.. js/document (getElementById "joke-container") (appendChild c)))
+    (aset node "innerHTML" (str "<div id='joke'>" (:joke text) "</div>"))
+    (aset node "style" "fontSize" (str (+ 15 (rand-int 10))  "px"))
+    (.. container (appendChild node)))
   IPrep
   (will-enter-stage [this])
   (will-leave-stage [this])
   IStageTime
-  (perf-time [this] ;; defines the joke's stage time
-  (rand-int 5000)))
+  (perf-time [this]
+    (rand-int 5000)))
 ```
 
 You take the content of your jokes and a DOM node and construct a sequence of CNJoke performers, and hand them to the showtime function.
