@@ -38,17 +38,20 @@
                                               (>! tick :go))
         ;; performer tries to get their prepwork done, if not, they are skipped!
         (awill-enter-stage performer) ([prepwork]
-                                       (start-performance (assoc performer :prepwork prepwork))
-                                       (<! (async/timeout (perf-time performer)))
-                                       (awill-leave-stage performer)
-                                       (end-performance performer)
+                                       (let [prepped-performer (assoc performer :prepwork prepwork)
+                                             started-performer (start-performance prepped-performer)]
+                                         (<! (async/timeout (perf-time started-performer)))
+                                         (as-> started-performer exiting-performer
+                                           (awill-leave-stage exiting-performer)
+                                           (end-performance exiting-performer)))
                                        (>! tick :go)))
-      (do ;; otherwise prepwork is handled syncronously
-        (will-enter-stage performer)
-        (start-performance performer)
-        (<! (async/timeout (perf-time performer)))
-        (will-leave-stage performer)
-        (end-performance performer)
+      (let [started-performer (-> performer
+                                  will-enter-stage
+                                  start-performance)]
+        (<! (async/timeout (perf-time started-performer)))
+        (as-> started-performer exiting-performer
+          (will-leave-stage exiting-performer)
+          (end-performance exiting-performer))
         (>! tick :go)))
 
     (recur (<! stage))))
