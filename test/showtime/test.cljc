@@ -19,14 +19,18 @@
 (defrecord HurriedPerformer [cycle-tracker]
   IPrep
   (will-enter-stage [this]
-    (swap! cycle-tracker conj :will-enter-stage))
+    (swap! cycle-tracker conj :will-enter-stage)
+    this)
   (will-leave-stage [this]
-    (swap! cycle-tracker conj :will-leave-stage))
+    (swap! cycle-tracker conj :will-leave-stage)
+    this)
   IPerform
   (start-performance [this]
-    (swap! cycle-tracker conj :start-performance))
+    (swap! cycle-tracker conj :start-performance)
+    this)
   (end-performance [this]
-    (swap! cycle-tracker conj :end-performance))
+    (swap! cycle-tracker conj :end-performance)
+    this)
   IStageTime
   (perf-time [this]
     1000))
