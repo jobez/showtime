@@ -20,14 +20,18 @@
   IPerform
   (end-performance [this]
     (aset node "innerHTML" (str "<i>" (:joke text) "</i>"))
-    (.. container (appendChild node)))
+    (.. container (appendChild node))
+    this)
   (start-performance [this]
     (aset node "innerHTML" (str "<div id='joke'>" (:joke text) "</div>"))
     (aset node "style" "fontSize" (str (+ 15 (rand-int 10))  "px"))
-    (.. container (appendChild node)))
+    (.. container (appendChild node))
+    this)
   IPrep
-  (will-enter-stage [this])
-  (will-leave-stage [this])
+  (will-enter-stage [this]
+    this)
+  (will-leave-stage [this]
+    this)
   IStageTime
   (perf-time [this]
     (rand-int 5000)))

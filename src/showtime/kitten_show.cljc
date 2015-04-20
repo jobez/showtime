@@ -48,15 +48,18 @@
 (defrecord Kitten [image-url state]
   IPerform
   (show/end-performance [this]
-    (swap! state assoc :msg :end-performance))
+    (swap! state assoc :msg :end-performance)
+    this)
   (show/start-performance [this]
-    (some->> this ;;take the prepwork
-        :prepwork
-        :body
-        bis->buffimage ;; convert byte input stream to bufferedimage
-        buffimage->pimage ;; convert bufferedimage to a processing image
-        (swap! state assoc :star)) ;; swap it into the quil-sketch state
-    (swap! state assoc :msg :a-star-is-born))
+    (let [pimg (some->> this ;;take the prepwork
+                        :prepwork
+                        :body
+                        bis->buffimage ;; convert byte input stream to bufferedimage
+                        buffimage->pimage ;; convert bufferedimage to a processing image
+                        )]
+      (swap! state assoc :star pimg) ;; swap it into the quil-sketch state
+      (swap! state assoc :msg :a-star-is-born)
+      (assoc this :pimg pimg)))
   IAsyncPrep
   (show/awill-enter-stage [this]
     (let [ready-chan (chan)
@@ -64,7 +67,8 @@
       (s/connect reqstream ready-chan)
       ready-chan))
   (show/awill-leave-stage [this]
-    (swap! state assoc :msg :will-leave-stage))
+    (swap! state assoc :msg :will-leave-stage)
+    this)
   IStageTime
   (show/perf-time [this]
     5000)
